@@ -45,16 +45,35 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode==PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE && grantResults.length>0
                 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+
+            Log.d(TAG, "onRequestPermissionsResult: " +requestCode);
+            Log.d(TAG, "onRequestPermissionsResult: " + permissions[0]);
+            Log.d(TAG, "onRequestPermissionsResult: " + grantResults[0]);
+
             doIt();
         }
     }
 
+    private void print(String str){
+        tv.append(str + "\n");
+    }
+
+    private void newLine(){
+        print("");
+    }
+
     private void doIt() {
-        tv.setText(String.format("Medium kann%s entfernt werden\n",
+        // print für tv.setText(..)..
+        print(String.format("Medium kann%s entfernt werden",
                 // Environment ist die Systemumgebung in welcher unsere App liegt
                 Environment.isExternalStorageRemovable() ? "" : " nicht"));
 
         final String state = Environment.getExternalStorageState();
+
+        newLine();
+        print(state);
+        newLine();
+
         final boolean canRead, canWrite;
         switch (state) {
             case Environment.MEDIA_MOUNTED:
@@ -80,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
         tv.append(root.getAbsolutePath() + "\n");
         File dirAppBase = new File(dirBase.getAbsolutePath() + "/Android/data/" + getClass().getPackage().getName() + "/files");
         tv.append(getPackageName());
+
+        print(dirAppBase.getAbsolutePath());
+        newLine();
+
         if (!dirAppBase.mkdirs()) {
             tv.append(String.format("alle Unterverzeichnisse von %s schon vorhanden", dirAppBase.getAbsoluteFile()));
         }
