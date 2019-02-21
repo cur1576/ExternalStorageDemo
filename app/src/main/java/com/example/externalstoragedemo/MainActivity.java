@@ -40,5 +40,7 @@ public class MainActivity extends AppCompatActivity {
         }
         tv.append(String.format("Lesen ist%s möglich\n",
                 canRead?"":" nicht"));
+        tv.append(String.format("Schreiben ist%s möglich\n",
+                canWrite?"":" nicht"));
     }
 }
